@@ -10,8 +10,8 @@ using dotnet_core_rpg.Data;
 namespace dotnet_core_rpg.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200923214906_Skill")]
-    partial class Skill
+    [Migration("20200925104239_Final")]
+    partial class Final
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,7 +46,7 @@ namespace dotnet_core_rpg.Migrations
                     b.Property<int>("Strength")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -54,6 +54,30 @@ namespace dotnet_core_rpg.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Characters");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Class = 1,
+                            Defuse = 10,
+                            HitPoints = 100,
+                            Intelligence = 10,
+                            Name = "Frodo",
+                            Strength = 15,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Class = 2,
+                            Defuse = 15,
+                            HitPoints = 50,
+                            Intelligence = 20,
+                            Name = "Raistlin",
+                            Strength = 30,
+                            UserId = 2
+                        });
                 });
 
             modelBuilder.Entity("dotnet_core_rpg.Models.CharacterSkill", b =>
@@ -69,6 +93,23 @@ namespace dotnet_core_rpg.Migrations
                     b.HasIndex("SkillId");
 
                     b.ToTable("CharacterSkills");
+
+                    b.HasData(
+                        new
+                        {
+                            CharacterId = 1,
+                            SkillId = 2
+                        },
+                        new
+                        {
+                            CharacterId = 2,
+                            SkillId = 1
+                        },
+                        new
+                        {
+                            CharacterId = 2,
+                            SkillId = 3
+                        });
                 });
 
             modelBuilder.Entity("dotnet_core_rpg.Models.Skill", b =>
@@ -87,6 +128,26 @@ namespace dotnet_core_rpg.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Skills");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Damage = 30,
+                            Name = "Fireball"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Damage = 20,
+                            Name = "Blizzard"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Damage = 50,
+                            Name = "Frenzy"
+                        });
                 });
 
             modelBuilder.Entity("dotnet_core_rpg.Models.User", b =>
@@ -102,12 +163,34 @@ namespace dotnet_core_rpg.Migrations
                     b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("Player");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PasswordHash = new byte[] { 251, 209, 112, 134, 217, 142, 134, 106, 36, 185, 160, 1, 24, 98, 12, 209, 182, 71, 233, 62, 114, 135, 103, 248, 167, 200, 142, 227, 94, 97, 84, 187, 171, 194, 197, 255, 169, 133, 143, 211, 129, 45, 227, 6, 145, 237, 68, 119, 116, 160, 195, 45, 139, 66, 32, 127, 185, 121, 238, 124, 67, 41, 226, 9 },
+                            PasswordSalt = new byte[] { 200, 240, 212, 184, 203, 92, 182, 166, 15, 235, 25, 131, 48, 135, 6, 243, 240, 189, 178, 25, 41, 249, 120, 90, 249, 144, 30, 252, 171, 6, 134, 130, 150, 4, 152, 222, 113, 180, 150, 113, 101, 77, 239, 117, 152, 126, 92, 202, 17, 64, 75, 135, 42, 117, 174, 211, 241, 75, 85, 55, 2, 97, 62, 58, 207, 199, 107, 142, 189, 175, 166, 76, 26, 53, 122, 24, 248, 200, 250, 155, 58, 124, 176, 4, 79, 108, 165, 138, 122, 190, 104, 46, 200, 45, 130, 59, 20, 191, 154, 68, 219, 120, 196, 232, 205, 61, 76, 246, 97, 55, 49, 145, 240, 17, 191, 25, 16, 237, 243, 254, 106, 37, 183, 112, 100, 127, 35, 10 },
+                            Username = "user1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PasswordHash = new byte[] { 251, 209, 112, 134, 217, 142, 134, 106, 36, 185, 160, 1, 24, 98, 12, 209, 182, 71, 233, 62, 114, 135, 103, 248, 167, 200, 142, 227, 94, 97, 84, 187, 171, 194, 197, 255, 169, 133, 143, 211, 129, 45, 227, 6, 145, 237, 68, 119, 116, 160, 195, 45, 139, 66, 32, 127, 185, 121, 238, 124, 67, 41, 226, 9 },
+                            PasswordSalt = new byte[] { 200, 240, 212, 184, 203, 92, 182, 166, 15, 235, 25, 131, 48, 135, 6, 243, 240, 189, 178, 25, 41, 249, 120, 90, 249, 144, 30, 252, 171, 6, 134, 130, 150, 4, 152, 222, 113, 180, 150, 113, 101, 77, 239, 117, 152, 126, 92, 202, 17, 64, 75, 135, 42, 117, 174, 211, 241, 75, 85, 55, 2, 97, 62, 58, 207, 199, 107, 142, 189, 175, 166, 76, 26, 53, 122, 24, 248, 200, 250, 155, 58, 124, 176, 4, 79, 108, 165, 138, 122, 190, 104, 46, 200, 45, 130, 59, 20, 191, 154, 68, 219, 120, 196, 232, 205, 61, 76, 246, 97, 55, 49, 145, 240, 17, 191, 25, 16, 237, 243, 254, 106, 37, 183, 112, 100, 127, 35, 10 },
+                            Username = "user2"
+                        });
                 });
 
             modelBuilder.Entity("dotnet_core_rpg.Models.Weapon", b =>
@@ -132,13 +215,31 @@ namespace dotnet_core_rpg.Migrations
                         .IsUnique();
 
                     b.ToTable("Weapons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CharacterId = 1,
+                            Damage = 20,
+                            Name = "Master Sword"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CharacterId = 2,
+                            Damage = 30,
+                            Name = "Crystal Wand"
+                        });
                 });
 
             modelBuilder.Entity("dotnet_core_rpg.Models.Character", b =>
                 {
                     b.HasOne("dotnet_core_rpg.Models.User", "User")
                         .WithMany("Characters")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("dotnet_core_rpg.Models.CharacterSkill", b =>

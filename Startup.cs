@@ -72,11 +72,26 @@ namespace dotnet_core_rpg
             app.UseAuthentication();
 
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            UpdateDatabase(app);
+        }
+        private static void UpdateDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<DataContext>())
+                {
+                    context.Database.Migrate();
+                }
+            }
         }
     }
 }

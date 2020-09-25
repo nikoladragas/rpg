@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace dotnet_core_rpg.Controllers
 {
     // With this Route attribute we can acces this controller by its name 'Character'
-    [Authorize]
+    // Only users with Role = Player can access this controller
+    [Authorize(Roles = "Player, Admin")]
     [ApiController]
     [Route("[controller]")]
     public class CharacterController : ControllerBase
@@ -29,6 +30,7 @@ namespace dotnet_core_rpg.Controllers
         {
           return Ok(await _characterService.GetAllCharacters());
         }
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSingle(int id)
         {
